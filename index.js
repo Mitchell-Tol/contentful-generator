@@ -18,7 +18,7 @@ async function main() {
 }
 
 async function createNewsItem(environment, title, image, body, publicationDate, link) {
-    const result = await environment.createEntry(keys["news_item_key"], {
+    const result = await environment.createEntry(ids["news_item_key"], {
         fields: {
             title: { "en-US": title },
             image: { "en-US": {
