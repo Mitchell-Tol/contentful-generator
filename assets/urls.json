@@ -1,5 +1,5 @@
 {
-    "preview": "https://preview.contentful.com",
-    "public": "https://cdn.contentful.com",
-    "management": "https://api.contentful.com"
+    "management": "https://api.contentful.com",
+    "news_page_1": "https://www.cvgairport.com/about/news",
+    "news_page_2": "https://www.cvgairport.com/about/news/page/2"
 }
