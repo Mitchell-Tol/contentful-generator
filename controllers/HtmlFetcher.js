@@ -50,11 +50,11 @@ class HtmlFetcher {
             case "Sep":
                 return "09"
             case "Oct":
-                return 10
+                return "10"
             case "Nov":
-                return 11
+                return "11"
             case "Dec":
-                return 12
+                return "12"
         }
     }
 }
