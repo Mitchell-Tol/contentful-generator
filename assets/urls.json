@@ -1,0 +1,5 @@
+{
+    "preview": "https://preview.contentful.com",
+    "public": "https://cdn.contentful.com",
+    "management": "https://api.contentful.com"
+}
