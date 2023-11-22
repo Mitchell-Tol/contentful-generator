@@ -1,7 +1,8 @@
 const JSDOM = require('jsdom').JSDOM
 const TurndownService = require('turndown')
+const fs = require('fs')
 const urls = require('../assets/urls')
-const ids = require("../assets/ids")
+const ids = require('../assets/ids')
 const NewsItem = require('../models/NewsItem').NewsItem
 
 class HtmlFetcher {
@@ -11,35 +12,45 @@ class HtmlFetcher {
         const resultAsString = await result.text()
         const body = new JSDOM(resultAsString)
         const newsItems = body.window._document.querySelector(".sfnewsList").children
-        return this.#mapToNewsItemModel(newsItems)
+        return this.#mapToNewsItemModelList(newsItems)
     }
 
-    async #mapToNewsItemModel(list) {
+    async #mapToNewsItemModelList(list) {
         let mapped = []
+        let extraCareArticleList = "The following Links require extra care:\n\n"
         for (let i = 0; i < list.length; i++) {
             const date = this.#processDate(list[i].querySelector("div").innerHTML)
             const anchor = list[i].querySelector("a")
             const title = anchor.innerHTML
             const linkToArticleSuffix = anchor.getAttribute("href").replaceAll("news", "").replaceAll("..", "")
 
-            const body = await this.#retrieveArticleDetails(`${urls["news_page_1"]}${linkToArticleSuffix}`, date)
+            const body = await this.#retrieveArticleDetails(`${urls["news_page_1"]}${linkToArticleSuffix}`, url => {
+                extraCareArticleList += `${url}\n`
+            })
 
-            mapped.push(new NewsItem(title, "", body, date, ids["test_internal_link"]))
+            mapped.push(new NewsItem(title, ids["jay_image"], body, date, ids["test_internal_link"]))
             console.info("item mapped")
         }
+        fs.writeFile(`${__dirname}/../generated/ExtraCare.txt`, extraCareArticleList, err => {
+            if (err) {
+                console.error(`ERROR: Could not write store articles that need extra care:\n${err}`)
+            }
+        })
         return mapped
     }
 
-    async #retrieveArticleDetails(url) {
+    async #retrieveArticleDetails(url, addUrlToExtraCare) {
         const result = await fetch(url)
         const resultAsString = await result.text()
         const body = new JSDOM(resultAsString)
         const articleBody = body.window._document.querySelector(".sfcontent")
         
         const turndownService = new TurndownService()
+        let articlesToReview = ""
         turndownService.addRule("convert_image", {
             filter: ["img", "table"],
             replacement: function (content, node, options) {
+                addUrlToExtraCare(url)
                 switch (node.nodeName) {
                     case "IMG":
                         console.log(`IMAGE TO BE ADDED TO ARTICLE WITH URL ${url}`)
@@ -51,7 +62,8 @@ class HtmlFetcher {
             }
         })
         try {
-            return turndownService.turndown(articleBody)
+            const markdown = turndownService.turndown(articleBody)
+            return markdown
         } catch (e) {
             console.log(`ARTICLE WITH URL ${url} HAS INVALID BODY`)
             return ""

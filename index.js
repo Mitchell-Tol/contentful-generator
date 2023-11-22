@@ -5,8 +5,7 @@ const HtmlFetcher = require('./controllers/HtmlFetcher').HtmlFetcher
 const ContentManager = require("./controllers/ContentManager").ContentManager
 
 const client = contentful.createClient({
-    accessToken: keys["cma_token"],
-    host: urls["preview"]
+    accessToken: keys["cma_token"]
 })
 
 main()

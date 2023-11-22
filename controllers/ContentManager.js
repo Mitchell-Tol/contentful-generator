@@ -11,6 +11,7 @@ class ContentManager {
         const result = await this.#environment.createEntry(ids["news_item_key"], {
             fields: {
                 title: { "en-US": newsItem.title },
+                slug: { "en-US": newsItem.title.toLowerCase().replace(/[\s_]/g, '-').replace(/[^a-zA-Z0-9-]/g, '') },
                 image: { "en-US": {
                     sys: {
                         type: "Link",
@@ -20,13 +21,6 @@ class ContentManager {
                 }},
                 body: { "en-US": newsItem.body },
                 publicationDate: { "en-US": newsItem.publicationDate },
-                link: { "en-US": {
-                    sys: {
-                        type: "Link",
-                        linkType: "Entry",
-                        id: newsItem.link,
-                    }
-                }}
             }
         })
         let success = false

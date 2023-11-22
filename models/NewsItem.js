@@ -3,14 +3,12 @@ class NewsItem {
     image
     body
     publicationDate
-    link
 
-    constructor(title, image, body, publicationDate, link) {
+    constructor(title, image, body, publicationDate) {
         this.title = title
         this.image = image
         this.body = body
         this.publicationDate = publicationDate
-        this.link = link
     }
 }
 
