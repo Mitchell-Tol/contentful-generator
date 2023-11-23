@@ -12,7 +12,7 @@ main()
 
 async function main() {
     const fetcher = new HtmlFetcher()
-    const newsItems = await fetcher.fetchNewsItems(urls["news_page_1"])
+    const newsItems = await fetcher.fetchNewsItems(urls["news_page_3"])
 
     const space = await client.getSpace(keys["space"])
     const environment = await space.getEnvironment(keys["environment"])

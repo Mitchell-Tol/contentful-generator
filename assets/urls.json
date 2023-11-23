@@ -1,5 +1,7 @@
 {
     "management": "https://api.contentful.com",
     "news_page_1": "https://www.cvgairport.com/about/news",
-    "news_page_2": "https://www.cvgairport.com/about/news/page/2"
+    "news_page_2": "https://www.cvgairport.com/about/news/page/2",
+    "news_page_3": "https://www.cvgairport.com/about/news/page/3",
+    "news_page_4": "https://www.cvgairport.com/about/news/page/4"
 }

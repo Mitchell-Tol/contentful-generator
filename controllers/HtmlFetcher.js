@@ -21,7 +21,7 @@ class HtmlFetcher {
         for (let i = 0; i < list.length; i++) {
             const date = this.#processDate(list[i].querySelector("div").innerHTML)
             const anchor = list[i].querySelector("a")
-            const title = anchor.innerHTML
+            const title = anchor.innerHTML.replaceAll("&nbsp;", "")
             const linkToArticleSuffix = anchor.getAttribute("href").replaceAll("news", "").replaceAll("..", "")
 
             const body = await this.#retrieveArticleDetails(`${urls["news_page_1"]}${linkToArticleSuffix}`, url => {
